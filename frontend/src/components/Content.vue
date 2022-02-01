@@ -1,8 +1,8 @@
 <template>
   <div class="content">
-    <h2>{{ title }}</h2>
+    <h2>{{ propTitle || title }}</h2>
     <div class="contentMain">
-      <router-view></router-view>
+      <router-view @titleRequest="onGetTitle"></router-view>
     </div>
   </div>
 </template>
@@ -17,6 +17,14 @@ export default {
   props: {
     title: String,
   },
+  data:()=> ({
+    propTitle: null
+  }),
+  methods:{
+    onGetTitle(title){
+      this.propTitle = title
+    }
+  }
 };
 </script>
 
