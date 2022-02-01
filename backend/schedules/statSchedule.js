@@ -1,5 +1,3 @@
-const schedule = require('node-schedule')
-
 module.exports = app => {
     setInterval( async date => {
         const usersCount = await app.db('users').count('id').first()
