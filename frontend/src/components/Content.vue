@@ -1,8 +1,8 @@
 <template>
   <div class="content">
-    <h2>{{ propTitle || title }}</h2>
+    <h2 v-if="propTitle">{{propTitle}}</h2>
     <div class="contentMain">
-      <router-view @titleRequest="onGetTitle"></router-view>
+      <router-view @State="onGetState"></router-view>
     </div>
   </div>
 </template>
@@ -14,15 +14,13 @@ export default {
   router,
   components: {
   },
-  props: {
-    title: String,
-  },
   data:()=> ({
     propTitle: null
   }),
   methods:{
-    onGetTitle(title){
-      this.propTitle = title
+    onGetState(state){
+      this.propTitle = state.title
+      this.$emit('ifUser',state.ifUser)
     }
   }
 };

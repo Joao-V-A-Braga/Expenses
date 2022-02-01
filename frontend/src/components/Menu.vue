@@ -6,15 +6,24 @@
       </button>
     </div>
     <div class="contentMenu">
-      <div class="title">
-        <h3>Menu</h3>
-      </div>
+      <MenuUserOptions v-if="ifUser"/>
+      <MenuHomeOptions v-else/>
     </div>
   </div>
 </template>
 
 <script>
+
+import MenuHomeOptions from '@/utils/MenuHomeOptions.vue'
+import MenuUserOptions from '@/utils/MenuUserOptions.vue'
 export default {
+  components:{
+    MenuHomeOptions,
+    MenuUserOptions
+  },
+  props:{
+    ifUser: Boolean
+  },
   methods: {
     closeMenu() {
         this.$emit('clicked',true)
@@ -51,15 +60,6 @@ export default {
   height: 100%;
 }
 
-h3 {
-  font-size: 1em;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  padding-left: 10px;
-}
-.title {
-  background: linear-gradient(to right, #060a0f, #151c24);
-}
 
 .angleUp {
   color: black;

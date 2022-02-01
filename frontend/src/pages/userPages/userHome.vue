@@ -1,16 +1,22 @@
 <template>
-  <div class="userHome">
-  </div>
+  <div class="userHome"></div>
 </template>
 
 <script>
 export default {
-    mounted: function (){
-            this.$emit('titleRequest',`Olá ${this.$route.params.user.name}!`)
-        }
-}
+  data: () => ({
+    user: {},
+  }),
+  mounted: function () {
+    this.user = this.$route.params.user;
+
+    this.$emit("State", {
+      title: `Olá ${this.user.name}!`,
+      ifUser: true,
+    });
+  },
+};
 </script>
 
 <style>
-
 </style>

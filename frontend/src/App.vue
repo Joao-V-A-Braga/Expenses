@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <Header @clicked="onCliked" v-bind:toggle="toggle"/>
-    <Content title="Entrar -"/>
-    <Menu @clicked ="onCliked" />
+    <Content @ifUser="getIfUser"/>
+    <Menu v-bind:ifUser="ifUser" @clicked ="onCliked" />
     <Footer />
   </div>
 </template>
@@ -23,11 +23,15 @@ export default {
   },
   data:()=> ({
     toggle: false,
+	ifUser: false
   }),
   methods:{
 	  onCliked(value){
 		  this.toggle = value
 		  console.log(value)
+	  },
+	  getIfUser(ifUser){
+		  this.ifUser = ifUser
 	  }
   }
   

@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import Home from "@/pages/Home.vue"
 import UserHome from "@/pages/userPages/userHome.vue"
+import About from "@/pages/About"
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,11 @@ const routes = [
         name:'UserHome',
         path:'/UserHome',
         component: UserHome,
+    },
+    {
+        name:'About',
+        path:'/About',
+        component: About,
     },
 ]
 

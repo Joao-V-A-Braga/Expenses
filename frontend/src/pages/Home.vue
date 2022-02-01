@@ -12,7 +12,16 @@ export default {
 	},
     data: () => ({
       
-    })
+    }),
+    mounted: function(){
+      this.$emit("State", {
+      title: `Entrar`,
+      ifUser: false
+    });
+    },
+    methods:{
+      
+    }
 }
 </script>
 
