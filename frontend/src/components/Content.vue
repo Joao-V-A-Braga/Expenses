@@ -35,7 +35,7 @@ export default {
 .content .contentMain {
     display: flex;
     justify-content: center;
-  padding: 20px;
+  padding-right: 20px;
 }
 h2 {
     padding-left:30px;
