@@ -13,9 +13,9 @@ module.exports = app => {
 
         const chengeUsers = !lastStats || lastStats.users !== stat.users
 
-        if (!chengeUsers) {
+        if (chengeUsers) {
             stat.save()
                 .then(() => console.log('\x1b[34m%s\x1b[37m', '[Stats]:\x1b[0m','Estatísticas atualizadas com sucesso!'))
         }
-    }, 1000)
+    },60 * 1000)
 }
