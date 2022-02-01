@@ -2,17 +2,17 @@
   <div class="content">
     <h2>{{ title }}</h2>
     <div class="contentMain">
-      <Home />
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import Home from "@/pages/Home.vue";
+import router from "@/config/routes.js"
 
 export default {
+  router,
   components: {
-    Home,
   },
   props: {
     title: String,
