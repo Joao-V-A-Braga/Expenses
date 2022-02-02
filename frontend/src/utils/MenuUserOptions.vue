@@ -9,7 +9,7 @@
     <div class="opc">
       <h5>Opções</h5>
       <Option optionTitle="Sair" nameComponentPage="Home" />
-      <Option optionTitle="Fazer login com outro" nameComponentPage="Home" />
+      <Option optionTitle="Fazer login com outro" nameComponentPage="Login" />
       <Option optionTitle="Ajuda" nameComponentPage="UserHome" />
     </div>
   </div>

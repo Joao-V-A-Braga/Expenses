@@ -2,6 +2,7 @@
   <div class="menuHomeOptions">
       <h4>Opções</h4>
       <Option optionTitle = 'Home' nameComponentPage = "Home"/>
+      <Option optionTitle = 'Login' nameComponentPage = "Login"/>
       <Option optionTitle = 'Sobre' nameComponentPage = "About"/>
   </div>
 </template>

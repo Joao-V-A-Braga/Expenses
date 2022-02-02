@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Home from "@/pages/Home.vue"
 import UserHome from "@/pages/userPages/userHome.vue"
 import About from "@/pages/About"
+import Login from "@/pages/Login"
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
         name:'About',
         path:'/About',
         component: About,
+    },
+    {
+        name:'Login',
+        path:'/Login',
+        component: Login,
     },
 ]
 
