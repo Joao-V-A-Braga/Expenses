@@ -11,7 +11,8 @@
             type="text"
           />
         </div>
-        <div><label for="email">Email:</label> <br />
+        <div>
+          <label for="email">Email:</label> <br />
           <input
             v-model="email"
             placeholder="Digite o seu email..."
@@ -28,7 +29,6 @@
             placeholder="Digite sua senha..."
             type="password"
           />
-          
         </div>
         <div>
           <label for="password">Confirmação:</label> <br />
@@ -37,7 +37,6 @@
             placeholder="Confirme sua senha..."
             type="password"
           />
-          
         </div>
       </div>
       <div class="button">
@@ -59,37 +58,42 @@ export default {
     path: "/",
   }),
   methods: {
-    submit() {
+    async submit() {
       const data = {
         name: this.name,
         email: this.email,
         password: this.password,
         confirmPassword: this.confirmPassword,
       };
-      axios
-        .post("http://localhost:3000/signup", data)
-        // .then((content) => {
-        //   const data = {
-        //     ...content.data,
-        //   };
-        //   console.log(data)
-        //   return data;
-        // })
-        // .then((data) => {
-        //   axios
-        //     .post("http://localhost:3000/validateToken", data)
-        //     .then((authorizate) => {
-        //       console.log(JSON.parse(authorizate.config.data));
-        //       if (authorizate.data) {
-        //         this.$router.push({
-        //           name: "UserHome",
-        //           params: {
-        //             user: JSON.parse(authorizate.config.data),
-        //           },
-        //         });
-        //       }
-        //     });
-        // });
+      await axios.post("http://localhost:3000/signup", data)
+
+      delete data.confirmPassword
+      delete data.name
+      console.log(data)
+      
+      axios.post("http://localhost:3000/signin", data)
+      .then((content) => {
+        const data = {
+          ...content.data,
+        };
+        console.log(data)
+        return data;
+      })
+      .then((data) => {
+        axios
+          .post("http://localhost:3000/validateToken", data)
+          .then((authorizate) => {
+            console.log(JSON.parse(authorizate.config.data));
+            if (authorizate.data) {
+              this.$router.push({
+                name: "UserHome",
+                params: {
+                  user: JSON.parse(authorizate.config.data),
+                },
+              });
+            }
+          });
+      });
       //GET USUÁRIOS ------------------------------------------------------------------
       // .post("http://localhost:3000/signin", data)
       // .then(content => {
@@ -141,15 +145,15 @@ h3 {
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 15px;
 }
-input {
+.Register input {
   margin-bottom: 10px;
   width: 100%;
 }
-.passAndConfirm{
-    display: flex;
-    justify-content: space-between;
+.passAndConfirm {
+  display: flex;
+  justify-content: space-between;
 }
-.passAndConfirm .pass{
-    padding-right: 30px;
+.passAndConfirm .pass {
+  padding-right: 30px;
 }
 </style>
