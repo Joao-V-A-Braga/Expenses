@@ -3,6 +3,11 @@
 ```
 npm i
 ```
+
+## Criando Schemas
+```
+knex migrate:latest
+```
 ## Start dev
 ```
 npm start
