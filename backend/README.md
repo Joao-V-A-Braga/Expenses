@@ -1,5 +1,8 @@
 # backend
-
+## Install packages
+```
+npm i
+```
 ## Start dev
 ```
 npm start
