@@ -8,6 +8,13 @@ npm i
 ```
 knex migrate:latest
 ```
+
+## Para o backend funcionar é necessário ter o MongoDB
+## Iniciando o MongoDB
+```
+mongod
+```
+
 ## Start dev
 ```
 npm start
