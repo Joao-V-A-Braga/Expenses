@@ -38,5 +38,14 @@ module.exports = app => {
             .catch(_ => res.status(400).send())
     }
 
-    return { save, get, update }
+    const del = (req, res) => {
+
+        app.db('expenses')
+            .delete()
+            .where({id: req.params.id})
+            .then(data => res.json(data))
+            .catch(_ => res.status(400).send())
+    }
+
+    return { save, get, update, del }
 }

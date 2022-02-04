@@ -25,4 +25,5 @@ module.exports = app => {
         .all(app.config.passport.authenticate)
         .get(app.api.expenses.get)
         .put(app.api.expenses.update)
+        .delete(app.api.expenses.del)
 }

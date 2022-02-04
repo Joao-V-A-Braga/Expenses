@@ -5,6 +5,7 @@
         <Bills
           :class="index % 2 == 0 ? 'odd' : ''"
           @getPaid="getPaid"
+          @getIfDel="getIfDel"
           :index="index"
           :bill="bill"
           :user="user"
@@ -29,6 +30,9 @@ export default {
     CadastreExpenseButton,
   },
   methods: {
+    getIfDel(obj){
+      this.billsList = this.billsList.filter((item, index) => index !== obj.index)
+    },
     getPaid(obj) {
       this.billsList[obj.index].paid = obj.paid;
     },
