@@ -16,4 +16,13 @@ module.exports = app => {
     app.route("/stat")
         .all(app.config.passport.authenticate)
         .get(app.api.stat.get)
+
+    app.route('/expenses')
+        .all(app.config.passport.authenticate)
+        .post(app.api.expenses.save)
+        
+    app.route('/expenses/:id')
+        .all(app.config.passport.authenticate)
+        .get(app.api.expenses.get)
+        .put(app.api.expenses.update)
 }

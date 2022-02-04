@@ -1,10 +1,9 @@
 <template>
-  <div>
     <div class="bill">
       <div class="value">R$ {{ bill.value }}</div>
       <div class="nameAndDate">
-        <div class="name">{{ bill.billName }}</div>
-        <div class="date">{{ getFormatedData(bill.date) }}</div>
+        <div class="name">{{ bill.name }}</div>
+        <div class="date">{{ getFormatedData(new Date(bill.date)) }}</div>
       </div>
       <div class="check">
         <button v-on:click.prevent="changePaid">
@@ -26,19 +25,26 @@
         </label>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
+const axios = require('axios')
 export default {
   props: {
     bill: Object,
     index: Number,
+    user: Object
   },
-  data: () => ({ paid: true }),
   methods: {
-    changePaid() {
-      this.$emit("getPaid", { index: this.index, paid: !this.bill.paid });
+    async changePaid() {
+      this.$emit("getPaid", { index: this.index, paid: !this.bill.paid })
+      const header = {
+        headers: {
+          Authorization: "bearer " + this.user.token,
+          "Content-Type": "application/json",
+        },
+      };
+      await axios.put('http://localhost:3000/expenses/'+this.bill.id, {paid: this.bill.paid}, header).catch(err => console.log(err))
     },
     getFormatedData(date) {
       const meses = [
@@ -67,10 +73,15 @@ export default {
 /* bills */
 .bill {
   display: flex;
-  align-items: center;
   width: 100%;
   height: 30px;
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  background-color: rgb(245, 245, 245);
+  
+}
+.odd{
+  background-color: rgba(0, 0, 0, 0.096);
 }
 .bill:hover {
   background-color: rgba(0, 0, 0, 0.151);
@@ -79,6 +90,7 @@ export default {
   display: flex;
   color: black;
   background-color: chartreuse;
+  margin-left: 20px;
   width: 260px;
   height: 90%;
   justify-content: center;
@@ -90,7 +102,7 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   margin-left: 20px;
-  width: 100%;
+  width: 30%;
 }
 .date {
   color: rgb(88, 86, 86);
@@ -100,13 +112,16 @@ export default {
   display: flex;
   width: 100%;
   justify-content: flex-end;
-  padding-right: 50px;
+  padding-right: 20px;
 }
 .ifPaid{
-    width: 180px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 180px;
+  color: rgb(133, 194, 41);
 }
 .ifNotPaid{
-    width: 90px;
     color: crimson;
 }
 </style>

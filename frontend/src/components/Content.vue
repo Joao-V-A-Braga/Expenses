@@ -31,11 +31,14 @@ export default {
   grid-area: content;
   background-color: whitesmoke;
   height: 80vh;
+  width: 100%;
+  overflow-y: auto;
 }
 .content .contentMain {
-    display: flex;
+  display: flex;
     justify-content: center;
-  padding-right: 20px;
+  margin-right: 20px;
+  height: 78%;
 }
 h2 {
     padding-left:30px;

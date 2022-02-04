@@ -5,6 +5,7 @@ import Home from "@/pages/Home.vue"
 import UserHome from "@/pages/userPages/userHome.vue"
 import About from "@/pages/About"
 import Login from "@/pages/Login"
+import CadastreExpense from "@/pages/userPages/CadastreExpense.vue"
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
         name:'Login',
         path:'/Login',
         component: Login,
+    },
+    {
+        name:'CadastreExpense',
+        path:'/CadastreExpense',
+        component: CadastreExpense,
     },
 ]
 
