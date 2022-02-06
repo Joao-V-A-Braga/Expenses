@@ -21,7 +21,7 @@
     </div>
     <div class="delete">
       <button v-on:click.prevent="del()">
-        <i class="fa fa-window-close"></i>
+        <i class="fas fa-eraser"></i>
       </button>
     </div>
   </div>
@@ -112,10 +112,10 @@ export default {
 }
 .value {
   display: flex;
-  color: black;
-  background-color: chartreuse;
+  color: whitesmoke;
+    background-color: rgb(31, 63, 63); 
   margin-left: 20px;
-  width: 150px;
+  width: 200px;
   height: 90%;
   justify-content: center;
   align-items: center;
@@ -142,13 +142,13 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 180px;
-  color: rgb(133, 194, 41);
+  color: rgb(104, 153, 30);
 }
 .ifNotPaid {
-  color: crimson;
+  color: black;
 }
 .ifNotPaid i {
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .delete {
@@ -156,10 +156,10 @@ export default {
   margin-left: 50px;
 }
 .delete button {
-  color: rgb(233, 62, 62);
-  font-size: 0.8em;
+  color: crimson;
+  font-size: 1em;
 }
-.delete button:active {
+.delete button:hover {
   color: rgb(200, 30, 30);
 }
 </style>

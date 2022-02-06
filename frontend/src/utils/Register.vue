@@ -1,6 +1,6 @@
 <template>
   <div class="Register">
-    <h3>Register</h3>
+    <h3>Registrar</h3>
     <form>
       <div class="nameAndEmail">
         <div>

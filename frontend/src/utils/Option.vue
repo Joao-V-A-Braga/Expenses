@@ -1,7 +1,7 @@
 <template>
   <div class="option">
     <button v-on:click.prevent="onclick">
-      {{ optionTitle }}
+      <i :class="icon"></i>  {{ optionTitle }}
     </button>
   </div>
 </template>
@@ -14,6 +14,7 @@ export default {
   props: {
     nameComponentPage: String,
     optionTitle: String,
+    icon: String
   },
   methods: {
     onclick() {
@@ -27,7 +28,7 @@ export default {
 
 <style>
 .option button {
-  color: whitesmoke;
+    color: rgb(163, 162, 162);
   text-align: start;
   width: 100%;
   height: 100%;

@@ -1,9 +1,9 @@
 <template>
   <div class="menuHomeOptions">
       <h4>Opções</h4>
-      <Option optionTitle = 'Home' nameComponentPage = "Home"/>
-      <Option optionTitle = 'Login' nameComponentPage = "Login"/>
-      <Option optionTitle = 'Sobre' nameComponentPage = "About"/>
+      <Option icon="fas fa-home" optionTitle = 'Home' nameComponentPage = "Home"/>
+      <Option icon="fas fa-sign-in-alt" optionTitle = 'Login' nameComponentPage = "Login"/>
+      <Option icon="fas fa-info-circle" optionTitle = 'Sobre' nameComponentPage = "About"/>
   </div>
 </template>
 

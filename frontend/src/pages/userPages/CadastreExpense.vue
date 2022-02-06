@@ -38,6 +38,11 @@ export default {
   }),
   mounted: function () {
     this.user = this.$route.params.user;
+    
+    this.$emit("State", {
+      title: "Adicionar Despesa:",
+      ifUser: true,
+    });
   },
   methods: {
     reset() {
