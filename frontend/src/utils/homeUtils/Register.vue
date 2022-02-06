@@ -65,35 +65,36 @@ export default {
         password: this.password,
         confirmPassword: this.confirmPassword,
       };
-      await axios.post("http://localhost:3000/signup", data)
+      await axios.post("http://localhost:3000/signup", data);
 
-      delete data.confirmPassword
-      delete data.name
-      console.log(data)
-      
-      axios.post("http://localhost:3000/signin", data)
-      .then((content) => {
-        const data = {
-          ...content.data,
-        };
-        console.log(data)
-        return data;
-      })
-      .then((data) => {
-        axios
-          .post("http://localhost:3000/validateToken", data)
-          .then((authorizate) => {
-            console.log(JSON.parse(authorizate.config.data));
-            if (authorizate.data) {
-              this.$router.push({
-                name: "UserHome",
-                params: {
-                  user: JSON.parse(authorizate.config.data),
-                },
-              });
-            }
-          });
-      });
+      delete data.confirmPassword;
+      delete data.name;
+      console.log(data);
+
+      axios
+        .post("http://localhost:3000/signin", data)
+        .then((content) => {
+          const data = {
+            ...content.data,
+          };
+          console.log(data);
+          return data;
+        })
+        .then((data) => {
+          axios
+            .post("http://localhost:3000/validateToken", data)
+            .then((authorizate) => {
+              console.log(JSON.parse(authorizate.config.data));
+              if (authorizate.data) {
+                this.$router.push({
+                  name: "UserHome",
+                  params: {
+                    user: JSON.parse(authorizate.config.data),
+                  },
+                });
+              }
+            });
+        });
       //GET USUÁRIOS ------------------------------------------------------------------
       // .post("http://localhost:3000/signin", data)
       // .then(content => {

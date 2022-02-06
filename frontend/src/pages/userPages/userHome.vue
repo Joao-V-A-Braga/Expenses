@@ -21,9 +21,13 @@ import Bills from "@/utils/userUtils/Bills.vue";
 import CadastreExpenseButton from "@/utils/userUtils/CadastreExpenseButton.vue";
 const axios = require("axios");
 export default {
+  props:{
+    monthlyIncome: String
+  },
   data: () => ({
     user: {},
     billsList: [],
+    valueSumExpanses: 0
   }),
   components: {
     Bills,
@@ -32,9 +36,11 @@ export default {
   methods: {
     getIfDel(obj){
       this.billsList = this.billsList.filter((item, index) => index !== obj.index)
+      this.changeRemaining()
     },
     getPaid(obj) {
       this.billsList[obj.index].paid = obj.paid;
+      this.changeRemaining()
     },
     getExpanses: async function () {
       const header = {
@@ -53,16 +59,36 @@ export default {
           console.log("O usuário não possui despesas!");
         });
     },
+    changeRemaining: function (){
+      this.valueSumExpanses = this.billsList.reduce((current,prev) => {
+        if(prev.paid) return (prev.value + current)
+          return current
+      },0)
+      const remaining = this.monthlyIncome-this.valueSumExpanses
+      this.$emit("getRemaining", {
+      value: 'R$ '+remaining.toString().replace('.',','),
+      stat: true
+    });
+    }
   },
-  mounted: function () {
+  mounted: async function () {
     this.user = this.$route.params.user;
-    this.getExpanses();
+    await this.getExpanses();
 
     this.$emit("State", {
       title: `Olá ${this.user.name}!`,
       ifUser: true,
-    });
+    })
+    this.changeRemaining()
   },
+  watch: {
+    monthlyIncome(){
+      this.changeRemaining()
+    },
+    valueSumExpanses(){
+      this.changeRemaining()
+    }
+  }
 };
 </script>
 

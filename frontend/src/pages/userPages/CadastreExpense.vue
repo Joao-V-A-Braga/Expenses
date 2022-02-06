@@ -42,6 +42,10 @@ export default {
     this.$emit("State", {
       title: "Adicionar Despesa:",
       ifUser: true,
+    })
+    this.$emit("getRemaining", {
+      value: (this.monthlyIncome - 50).toString().replace(".", ","),
+      stat: false,
     });
   },
   methods: {

@@ -17,6 +17,10 @@ export default {
       this.$emit("State", {
       title: `Cadastro`,
       ifUser: false
+    })
+    this.$emit("getRemaining", {
+      value: ((this.monthlyIncome-50).toString().replace('.',',')),
+      stat: false
     });
     },
     methods:{
