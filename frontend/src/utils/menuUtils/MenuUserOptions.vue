@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Option from "@/utils/Option.vue";
+import Option from "@/utils/menuUtils/Option.vue";
 export default {
   components: {
     Option,

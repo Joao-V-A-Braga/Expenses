@@ -1,10 +1,10 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 
-import Home from "@/pages/Home.vue"
+import Home from "@/pages/homePages/Home.vue"
 import UserHome from "@/pages/userPages/userHome.vue"
-import About from "@/pages/About"
-import Login from "@/pages/Login"
+import About from "@/pages/homePages/About"
+import Login from "@/pages/homePages/Login"
 import CadastreExpense from "@/pages/userPages/CadastreExpense.vue"
 
 Vue.use(VueRouter)

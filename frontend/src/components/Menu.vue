@@ -14,8 +14,8 @@
 
 <script>
 
-import MenuHomeOptions from '@/utils/MenuHomeOptions.vue'
-import MenuUserOptions from '@/utils/MenuUserOptions.vue'
+import MenuHomeOptions from '@/utils/menuUtils/MenuHomeOptions.vue'
+import MenuUserOptions from '@/utils/menuUtils/MenuUserOptions.vue'
 export default {
   components:{
     MenuHomeOptions,

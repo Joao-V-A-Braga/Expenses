@@ -1,21 +1,21 @@
 <template>
-  <div class="Login">
-      <LogIn />
+  <div class="home">
+      <Register />
   </div>
 </template>
 
 <script>
-import LogIn from '@/utils/LogIn.vue'
+import Register from '@/utils/homeUtils/Register.vue'
 export default {
     components: {
-		LogIn
+		Register
 	},
     data: () => ({
       
     }),
     mounted: function(){
       this.$emit("State", {
-      title: `Login`,
+      title: `Cadastro`,
       ifUser: false
     });
     },
