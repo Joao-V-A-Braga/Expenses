@@ -5,7 +5,7 @@ module.exports = app => {
     const save = (req, res) => {
 
         const expense = { ...req.body }
-
+        expense.date = new Date(expense.date)
         if (!expense.userId) res.status(400).send('Despesa sem Usuário.')
 
         try {
@@ -22,18 +22,25 @@ module.exports = app => {
     }
 
     const get = (req, res) => {
-
-        app.db('expenses')
-            .where({userId: req.params.id})
-            .then(data => res.json(data))
-            .catch(_ => res.status(400).send('O usuário não possui despesas.'))
+        const month = req.body.month
+        if (month) {
+            app.db('expenses')
+                .where({ userId: req.params.id, month })
+                .then(data => res.json(data))
+                .catch(_ => res.status(400).send('O usuário não possui despesas.'))
+            } else {
+            app.db('expenses')
+                .where({ userId: req.params.id})
+                .then(data => res.json(data))
+                .catch(_ => res.status(400).send('O usuário não possui despesas.'))
+        }
     }
 
     const update = (req, res) => {
 
         app.db('expenses')
             .update(req.body)
-            .where({id: req.params.id})
+            .where({ id: req.params.id })
             .then(data => res.json(data))
             .catch(_ => res.status(400).send())
     }
@@ -42,7 +49,7 @@ module.exports = app => {
 
         app.db('expenses')
             .delete()
-            .where({id: req.params.id})
+            .where({ id: req.params.id })
             .then(data => res.json(data))
             .catch(_ => res.status(400).send())
     }

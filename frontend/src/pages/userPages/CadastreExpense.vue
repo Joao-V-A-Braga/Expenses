@@ -73,6 +73,7 @@ export default {
             value: Number(this.value),
             paid: false,
             date: new Date(),
+            month: new Date().getMonth()
           },
           header
         )

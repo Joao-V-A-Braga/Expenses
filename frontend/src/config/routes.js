@@ -6,6 +6,8 @@ import UserHome from "@/pages/userPages/userHome.vue"
 import About from "@/pages/homePages/About"
 import Login from "@/pages/homePages/Login"
 import CadastreExpense from "@/pages/userPages/CadastreExpense.vue"
+import Months from "@/pages/userPages/Months.vue"
+import History from "@/pages/userPages/History.vue"
 
 Vue.use(VueRouter)
 
@@ -34,6 +36,16 @@ const routes = [
         name:'CadastreExpense',
         path:'/CadastreExpense',
         component: CadastreExpense,
+    },
+    {
+        name:'Months',
+        path:'/Months',
+        component: Months,
+    },
+    {
+        name:'History',
+        path:'/History',
+        component: History,
     },
 ]
 

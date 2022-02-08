@@ -23,7 +23,16 @@ module.exports = app => {
         
     app.route('/expenses/:id')
         .all(app.config.passport.authenticate)
-        .get(app.api.expenses.get)
+        .post(app.api.expenses.get)
         .put(app.api.expenses.update)
         .delete(app.api.expenses.del)
+        
+    app.route('/months/:id')
+        .all(app.config.passport.authenticate)
+        .get(app.api.months.get)
+        .patch(app.api.months.patch)
+        
+    app.route('/months')
+        .all(app.config.passport.authenticate)
+        .post(app.api.months.post)
 }

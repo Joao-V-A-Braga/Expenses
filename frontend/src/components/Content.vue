@@ -1,10 +1,10 @@
 <template>
   <div class="content">
     <div class="titleAndStat">
-      <h2 v-if="title">{{ title }}</h2>
+      <div class="title" v-if="title">{{ title }}</div>
       <div v-if="stat" class="stat">
         <div class="month">
-          Fevereiro
+          {{this.month.name || 'Mês'}}
         </div>
           <hr>
         <div class="monthlyIncome">
@@ -41,6 +41,7 @@ export default {
     remainingIncome: "0",
     monthlyIncome: "",
     stat: false,
+    month: {}
   }),
   methods: {
     onGetState(state) {
@@ -48,8 +49,10 @@ export default {
       this.$emit("ifUser", state.ifUser);
     },
     onGetRemaining(obj) {
-      this.remainingIncome = obj.value;
-      this.stat = obj.stat;
+      this.remainingIncome = obj.value || '';
+      this.stat = obj.stat || false;
+      this.month = obj.month || false
+      this.monthlyIncome = this.month ? this.month.monthIncome.toString() : ''
       
       if(Number(this.remainingIncome.replace('R$','').replace(',','.')) >= 0) {
         document.getElementsByClassName('valueRemaining')[0].style.color = 'rgb(104, 153, 30)'
@@ -76,10 +79,13 @@ export default {
   margin-right: 20px;
   height: 78%;
 }
-h2 {
-  padding-left: 30px;
+.title {
+  font-size: 1.5em;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
   padding-top: 30px;
-  margin-bottom: 20px;
+
 }
 .titleAndStat {
   display: flex;

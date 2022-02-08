@@ -34,9 +34,12 @@ export default {
     bill: Object,
     index: Number,
     user: Object,
+    notActive: Boolean
   },
+
   methods: {
     async del() {
+      if(this.notActive) return
       const header = {
         headers: {
           Authorization: "bearer " + this.user.token,
@@ -49,6 +52,7 @@ export default {
         .catch((err) => console.log(err));
     },
     async changePaid() {
+      if(this.notActive) return
       this.$emit("getPaid", { index: this.index, paid: !this.bill.paid });
       const header = {
         headers: {

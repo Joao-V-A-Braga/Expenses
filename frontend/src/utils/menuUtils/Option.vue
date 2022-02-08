@@ -1,26 +1,41 @@
 <template>
   <div class="option">
     <button v-on:click.prevent="onclick">
-      <i :class="icon"></i>  {{ optionTitle }}
+      <i :class="icon"></i> {{ optionTitle }}
     </button>
   </div>
 </template>
 
 <script>
-import router from '@/config/routes.js'
+import router from "@/config/routes.js";
 
 export default {
-    router,
+  router,
   props: {
     nameComponentPage: String,
     optionTitle: String,
-    icon: String
+    icon: String,
+  },
+  data: () => ({
+    user: false,
+  }),
+  mounted: function () {
+    this.user = this.$route.params.user;
   },
   methods: {
     onclick() {
+      if(this.user){
         this.$router.push({
-                  name: this.nameComponentPage,
-                })
+          name: this.nameComponentPage,
+          params: {
+            user: this.user,
+          },
+        });
+      }else{
+        this.$router.push({
+          name: this.nameComponentPage,
+        });
+      }
     },
   },
 };
@@ -28,7 +43,7 @@ export default {
 
 <style>
 .option button {
-    color: rgb(163, 162, 162);
+  color: rgb(163, 162, 162);
   text-align: start;
   width: 100%;
   height: 100%;

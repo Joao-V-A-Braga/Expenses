@@ -20,6 +20,7 @@
 import Bills from "@/utils/userUtils/Bills.vue";
 import CadastreExpenseButton from "@/utils/userUtils/CadastreExpenseButton.vue";
 const axios = require("axios");
+
 export default {
   props:{
     monthlyIncome: String
@@ -27,7 +28,9 @@ export default {
   data: () => ({
     user: {},
     billsList: [],
-    valueSumExpanses: 0
+    valueSumExpanses: 0,
+    header: {},
+    month: {}
   }),
   components: {
     Bills,
@@ -42,18 +45,47 @@ export default {
       this.billsList[obj.index].paid = obj.paid;
       this.changeRemaining()
     },
+    async mountMonth(){
+      const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+      const body = {
+        name: months[(new Date().getMonth())],
+        userId: this.user.id,
+        year: new Date().getFullYear(),
+        month: new Date().getMonth(),
+        monthIncome: 0,
+      }
+      await axios.post("http://localhost:3000/months", body, this.header)
+      .then(res=> res.status(201).send())
+      .catch(e => console.log('ERR: a hora de publi'))
+    },
+    async getMonths(){
+      await axios
+        .get("http://localhost:3000/months/"+this.user.id, this.header)
+        .then(async res => {
+          console.log(res.data)
+          this.month = res.data.filter(value => value.month === new Date().getMonth())[0]
+          console.log(this.month)
+            if(!this.month.month){
+              console.log(this.month)
+              await this.mountMonth()
+              await this.getMonths()
+            }
+          })
+          
+    },
     getExpanses: async function () {
-      const header = {
+      this.header = {
         headers: {
           Authorization: "bearer " + this.user.token,
           "Content-Type": "application/json",
         },
-      };
+      }
+      await this.getMonths()
+      
       await axios
-        .get("http://localhost:3000/expenses/" + this.user.id, header)
+        .post("http://localhost:3000/expenses/"+this.user.id, {month: this.month.month}, this.header)
         .then((res) => {
           this.billsList = [...res.data].sort((a,b) => a.id > b.id ? 1 : -1)
-          
         })
         .catch((err) => {
           console.log("O usuário não possui despesas!");
@@ -67,7 +99,8 @@ export default {
       const remaining = this.monthlyIncome-this.valueSumExpanses
       this.$emit("getRemaining", {
       value: 'R$ '+remaining.toString().replace('.',','),
-      stat: true
+      stat: true,
+      month: this.month
     });
     }
   },
@@ -82,8 +115,11 @@ export default {
     this.changeRemaining()
   },
   watch: {
-    monthlyIncome(){
+    async monthlyIncome(){
+      this.month.monthIncome = this.monthlyIncome
       this.changeRemaining()
+
+      await axios.patch("http://localhost:3000/months/"+this.month.id, this.month, this.header)
     },
     valueSumExpanses(){
       this.changeRemaining()
