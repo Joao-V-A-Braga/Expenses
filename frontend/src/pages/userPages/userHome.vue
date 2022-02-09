@@ -64,9 +64,8 @@ export default {
         .then(async res => {
           console.log(res.data)
           this.month = res.data.filter(value => value.month === new Date().getMonth())[0]
-          console.log(this.month)
-            if(!this.month.month){
-              console.log(this.month)
+          console.log(this.month || 'É indefinido')
+            if(!this.month|| this.month.month == undefined){
               await this.mountMonth()
               await this.getMonths()
             }
@@ -98,7 +97,7 @@ export default {
       },0)
       const remaining = this.monthlyIncome-this.valueSumExpanses
       this.$emit("getRemaining", {
-      value: 'R$ '+remaining.toString().replace('.',','),
+      value: remaining.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}),
       stat: true,
       month: this.month
     });
@@ -134,7 +133,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: 100%;
   padding-top: 10px;
 }
 .bills {

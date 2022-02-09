@@ -52,7 +52,7 @@ export default {
       this.remainingIncome = obj.value || '';
       this.stat = obj.stat || false;
       this.month = obj.month || false
-      this.monthlyIncome = this.month ? this.month.monthIncome.toString() : ''
+      this.monthlyIncome = this.month ? this.month.monthIncome : ''
       
       if(Number(this.remainingIncome.replace('R$','').replace(',','.')) >= 0) {
         document.getElementsByClassName('valueRemaining')[0].style.color = 'rgb(104, 153, 30)'
@@ -70,14 +70,14 @@ export default {
   grid-area: content;
   background-color: whitesmoke;
   height: 80vh;
-  width: 100%;
+  width: 80vw;
   overflow-y: auto;
 }
 .content .contentMain {
   display: flex;
   justify-content: center;
-  margin-right: 20px;
   height: 78%;
+  width: 100%;
 }
 .title {
   font-size: 1.5em;

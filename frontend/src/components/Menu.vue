@@ -31,6 +31,7 @@ export default {
         '"header header""content content""footer footer"';
       document.getElementsByClassName("menu")[0].style.visibility = "hidden";
       document.getElementsByClassName("menu")[0].style.display = "none";
+      document.getElementsByClassName("content")[0].style.width = "100vw";
     },
   },
 };
@@ -41,6 +42,7 @@ export default {
   display: grid;
   align-items: flex-start;
   height: 90vh;
+  width: 20vw;
   color: whitesmoke;
   grid-area: menu;
   grid-template-areas:

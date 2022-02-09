@@ -45,7 +45,7 @@ export default {
       await axios
         .post("http://localhost:3000/expenses/" + this.user.id,{}, this.header)
         .then((res) => {
-          this.billsList = [...res.data].sort((a, b) => (a.id > b.id ? 1 : -1));
+          this.billsList = [...res.data].sort((a,b) => new Date(a.date) > new Date(b.date) ? 1 : -1)
         })
         .catch((err) => {
           console.log("O usuário não possui despesas!");
@@ -55,7 +55,17 @@ export default {
       await axios
         .get("http://localhost:3000/months/"+this.user.id, this.header)
         .then(res => {
-          this.months = res.data
+          this.months = res.data.sort((a, b) => {
+            a = new Date(`1-${a.month}-${a.year}`) | new Date('1-0-1000')
+            b = new Date(`1-${b.month}-${b.year}`) | new Date('1-0-1000')
+            
+
+            if (a < b){
+              return 1;
+            } else {
+              return -1;
+            }
+          });
           })
     },
     mountMonthsAndBills(){

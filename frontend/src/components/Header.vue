@@ -28,6 +28,7 @@ export default {
         '"header header header header header""menu content content content content""menu footer footer footer footer"';
       document.getElementsByClassName("menu")[0].style.visibility = "visible";
       document.getElementsByClassName("menu")[0].style.display = "grid";
+      document.getElementsByClassName("content")[0].style.width = "80vw";
     },
   },
 };

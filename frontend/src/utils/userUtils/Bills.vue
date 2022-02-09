@@ -7,11 +7,11 @@
     </div>
     <div class="check">
       <button v-on:click.prevent="changePaid">
-        <input type="checkbox" v-model="bill.paid" :id="index" />
+        <input v-if="!notActive"  type="checkbox" v-model="bill.paid" :id="index" />
       </button>
     </div>
     <div class="ifPaid">
-      <label v-if="bill.paid" :for="index">
+      <label  v-if="bill.paid" :for="index">
         Pago <i class="fa fa-check"></i>
       </label>
 
@@ -20,7 +20,7 @@
       </label>
     </div>
     <div class="delete">
-      <button v-on:click.prevent="del()">
+      <button v-if="!notActive" v-on:click.prevent="del()">
         <i class="fas fa-eraser"></i>
       </button>
     </div>

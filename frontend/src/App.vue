@@ -50,8 +50,8 @@ export default {
 
 	grid-template-areas:
 		'header header header header header'
-		'menu content content content content'
-		'menu footer footer footer footer';
+		'menu content  content content content'
+		'menu footer  footer footer footer';
 	grid-gap: 0px;
 	}
 	body{

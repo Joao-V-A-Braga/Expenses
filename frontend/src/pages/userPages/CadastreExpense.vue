@@ -1,5 +1,5 @@
 <template>
-  <div>
+  
     <div class="CadastreExpense">
       <h4>Cadastrar Despesa</h4>
       <form>
@@ -16,7 +16,19 @@
           placeholder="Digite o valor da despesa..."
           type="text"
         />
-        <br /><br />
+        
+        <br /><br /><label for="date">Data:</label>
+        <input
+          v-model="date"
+          type="date"
+        />
+        <br /><br /><label for="pay">Pagar:</label>
+        <input
+          v-model="paid"
+          type="checkbox"
+        />
+        
+        <br />
         <div class="button">
           <button v-on:click.prevent="submit()">Cadastrar</button>
           <button v-on:click.prevent="reset()" class="reset" type="reset">
@@ -25,7 +37,6 @@
         </div>
       </form>
     </div>
-  </div>
 </template>
 
 <script>
@@ -34,7 +45,11 @@ export default {
   data: () => ({
     title: "",
     value: "",
+    date:"",
     user: {},
+    months: [],
+    header: {},
+    paid: false
   }),
   mounted: function () {
     this.user = this.$route.params.user;
@@ -44,7 +59,6 @@ export default {
       ifUser: true,
     })
     this.$emit("getRemaining", {
-      value: (this.monthlyIncome - 50).toString().replace(".", ","),
       stat: false,
     });
   },
@@ -58,26 +72,52 @@ export default {
       });
     },
     submit: async function () {
-      const header = {
+      this.header = {
         headers: {
           Authorization: "bearer " + this.user.token,
           "Content-Type": "application/json",
         },
       };
-      await axios
-        .post(
-          "http://localhost:3000/expenses",
-          {
-            userId: this.user.id,
-            name: this.title,
-            value: Number(this.value),
-            paid: false,
-            date: new Date(),
-            month: new Date().getMonth()
-          },
-          header
+
+      this.getMonths()
+      
+      const matched = this.months.filter(
+        month => month.month == new Date(this.date).getMonth() && month.year == new Date(this.date).getFullYear()
         )
-        .catch((msg) => console.log(msg));
+      if(matched.length !== 0){
+        await axios
+          .post(
+            "http://localhost:3000/expenses",
+            {
+              userId: this.user.id,
+              name: this.title,
+              value: Number(this.value),
+              paid: this.paid,
+              date: new Date(this.date),
+              month: new Date(this.date).getMonth()
+            },
+            this.header
+          )
+          .catch((msg) => console.log(msg));
+      }else{
+        await this.mountMonth()
+
+        await axios
+          .post(
+            "http://localhost:3000/expenses",
+            {
+              userId: this.user.id,
+              name: this.title,
+              value: Number(this.value),
+              paid: this.paid,
+              date: new Date(this.date),
+              month: new Date(this.date).getMonth()
+            },
+            this.header
+          )
+          .catch((msg) => console.log(msg));
+      }
+
 
       this.$router.push({
         name: "UserHome",
@@ -85,6 +125,27 @@ export default {
           user: this.user,
         },
       });
+    },
+    async getMonths(){
+      await axios
+        .get("http://localhost:3000/months/"+this.user.id, this.header)
+        .then(async res => {
+          console.log(res.data)
+          this.months = res.data
+          })
+    },
+    async mountMonth(){
+      const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+      const body = {
+        name: months[(new Date(this.date).getUTCMonth())],
+        userId: this.user.id,
+        year: new Date(this.date).getUTCFullYear(),
+        month: new Date(this.date).getUTCMonth(),
+        monthIncome: 0,
+      }
+      await axios.post("http://localhost:3000/months", body, this.header)
+      .then(res=> res.status(201).send())
+      .catch(e => console.log('ERR: a hora de publi'))
     },
   },
 };
@@ -104,7 +165,8 @@ h4 {
   color: white;
   background: linear-gradient(to right, #3c608b, #22354b);
   padding: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  margin-top: 20px;
   overflow: hidden;
   padding-top: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,

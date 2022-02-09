@@ -23,7 +23,7 @@ module.exports = app => {
 
     const get = (req, res) => {
         const month = req.body.month
-        if (month) {
+        if (month || month === 0) {
             app.db('expenses')
                 .where({ userId: req.params.id, month })
                 .then(data => res.json(data))
