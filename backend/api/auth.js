@@ -6,17 +6,17 @@ module.exports = app =>{
     const signin = async (req,res) =>{
 
         try{
-            if(!req.body.email || !req.body.password) res.status(400).send()
+            if(!req.body.email || !req.body.password) throw 'É necessário preencher os campos.'
 
             const userData = await app.db('users')
                 .where({email: req.body.email})
                 .first()
             
-            if(!userData) res.status(400).send('Usuário não encontrado.')
+            if(!userData) throw 'Usuário não encontrado.'
     
             const validator = bcrypt.compareSync(req.body.password , userData.password)
     
-            if(!validator) res.status(401).send('Email/Senha inválidos.')
+            if(!validator) throw 'Email/Senha inválidos.'
             
             const now = Date.now() / 1000
     
@@ -32,8 +32,8 @@ module.exports = app =>{
                 ...payload,
                 token: jwt.encode(payload, authSecret)
             })
-        }catch(e){
-            return 
+        }catch(msg){
+            return res.status(400).send(msg || 'Error: 501')
         }
 
     }

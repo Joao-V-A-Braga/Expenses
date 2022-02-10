@@ -86,10 +86,7 @@ export default {
     this.user = this.$route.params.user;
     await this.getExpanses();
     await this.getMonths()
-    console.log(this.months)
-    console.log(this.billsList)
     this.mountMonthsAndBills()
-    console.log(this.monthsAndBills)
 
     this.$emit("State", {
       title: "",
@@ -114,6 +111,9 @@ export default {
 .year{
   font-size: .8em;
   color: rgb(90, 90, 90);
+}
+.Months{
+  width: 80%;
 }
 .Months .title{
     display: flex;

@@ -2,16 +2,17 @@
   <div class="LogIn">
     <h3>Login</h3>
     <form>
+      <div class="invalid" :v-if="msg"><i class="fas fas-triangle-exclamation"></i>{{ msg }}</div>
       <label for="email">Email:</label><br />
       <input v-model="email" placeholder="Digite o seu email..." type="text" />
-
       <br /><br /><label for="password">Senha:</label><br />
       <input
         v-model="password"
         placeholder="Digite sua senha..."
         type="password"
       />
-      <br /><br />
+      <div class="notHavaAcont" v-on:click.prevent="$router.push({name: 'Home'})">Ainda não tenho uma conta: Cadastrar...</div>
+      <br />
       <div class="button">
         <button v-on:click.prevent="submit()">Entrar</button>
       </div>
@@ -22,12 +23,12 @@
 <script>
 const axios = require("axios");
 
-
 export default {
   data: () => ({
     email: "",
     password: "",
     path: "/",
+    msg: "",
   }),
   methods: {
     submit() {
@@ -43,6 +44,7 @@ export default {
           };
           return data;
         })
+        .catch((e) => (this.msg = e.response.data))
         .then((data) => {
           axios
             .post("http://localhost:3000/validateToken", data)
@@ -54,9 +56,10 @@ export default {
                   params: {
                     user: JSON.parse(authorizate.config.data),
                   },
-                })
+                });
               }
-            });
+            })
+            .catch((e) => (this.msg = e.response.data));
         });
       //GET USUÁRIOS ------------------------------------------------------------------
       // .post("http://localhost:3000/signin", data)
@@ -81,7 +84,7 @@ export default {
 
 <style>
 h3 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: center;
 }
@@ -108,5 +111,20 @@ h3 {
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 15px;
+}
+.invalid {
+  font-family: Helvetica, sans-serif;
+  font-size: 0.6em;
+  color: rgb(223, 41, 41);
+  margin-bottom: 5px;
+}
+.notHavaAcont{
+  margin-top: 5px;
+  font-size: .6em;
+  text-decoration: underline;
+  color: rgb(83, 83, 243);
+}
+.notHavaAcont:hover{
+  cursor: pointer;
 }
 </style>

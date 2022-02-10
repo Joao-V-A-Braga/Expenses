@@ -56,7 +56,7 @@ export default {
       }
       await axios.post("http://localhost:3000/months", body, this.header)
       .then(res=> res.status(201).send())
-      .catch(e => console.log('ERR: a hora de publi'))
+      .catch(e => console.log(e.response.data))
     },
     async getMonths(){
       await axios

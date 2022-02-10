@@ -11,7 +11,7 @@
           <label for="monthlyIncome">Saldo do mês</label>
             <span
               >R$
-              <input type="number" v-model="monthlyIncome" placeholder="00,00"
+              <input type="number" v-model="monthIncome" placeholder="Inserir"
             /></span>
         </div>
         <div class="remainingIncome">
@@ -52,16 +52,16 @@ export default {
       this.remainingIncome = obj.value || '';
       this.stat = obj.stat || false;
       this.month = obj.month || false
-      this.monthlyIncome = this.month ? this.month.monthIncome : ''
+      this.monthlyIncome = this.month && this.month.monthIncome != 0 ? this.month.monthIncome : ''
       
-      if(Number(this.remainingIncome.replace('R$','').replace(',','.')) >= 0) {
+      if(Number(this.remainingIncome.replace('R$','').replaceAll('.','').replace(',','.')) >= 0) {
         document.getElementsByClassName('valueRemaining')[0].style.color = 'rgb(104, 153, 30)'
         }
       else{
         document.getElementsByClassName('valueRemaining')[0].style.color = 'rgb(255,0,0)'
       }
     },
-  }
+  },
 };
 </script>
 

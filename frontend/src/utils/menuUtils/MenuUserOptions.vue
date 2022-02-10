@@ -3,7 +3,7 @@
     <div class="org">
       <h4>Organização</h4>
       <Option optionTitle="Página Inicial" nameComponentPage="UserHome" />
-      <Option optionTitle="Mêses" nameComponentPage="Months" />
+      <Option optionTitle="Meses" nameComponentPage="Months" />
       <Option optionTitle="Histórico" nameComponentPage="History" />
     </div>
     <div class="opc">

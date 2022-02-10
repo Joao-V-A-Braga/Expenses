@@ -165,7 +165,7 @@ h4 {
   color: white;
   background: linear-gradient(to right, #3c608b, #22354b);
   padding: 30px;
-  margin-bottom: 10px;
+  padding-bottom: 20px;
   margin-top: 20px;
   overflow: hidden;
   padding-top: 10px;

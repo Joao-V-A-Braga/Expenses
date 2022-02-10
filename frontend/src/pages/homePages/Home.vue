@@ -15,7 +15,7 @@ export default {
     }),
     mounted: function(){
       this.$emit("State", {
-      title: `Cadastro`,
+      title: `Faça o seu cadastro no nosso site!!`,
       ifUser: false
     })
     this.$emit("getRemaining", {
@@ -29,6 +29,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  
+<style>
+  .home{
+    margin-top: 10px;
+  }
 </style>

@@ -29,6 +29,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  
+<style>
+  .Login{
+    margin-top: 30px;
+  }
 </style>

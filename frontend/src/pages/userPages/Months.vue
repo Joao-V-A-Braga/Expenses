@@ -1,6 +1,6 @@
 <template>
   <div class="MonthPage">
-    <div class="title">Mêses</div>
+    <div class="title">Meses</div>
     <div class="monthList" v-for="month in months" :key="month.id">
       <button v-on:click.prevent="onClick(month)" :class="month.positiveOrNot">
         {{ month.name }}

@@ -2,6 +2,7 @@
   <div class="Register">
     <h3>Registrar</h3>
     <form>
+      <div class="invalid" :v-if="msg">{{ msg }}</div>
       <div class="nameAndEmail">
         <div>
           <label for="name">Nome:</label> <br />
@@ -39,6 +40,7 @@
           />
         </div>
       </div>
+      <div class="IHavaAcont" v-on:click.prevent="$router.push({name: 'Login'})">Já tenho uma conta: Fazer login...</div>
       <div class="button">
         <button v-on:click.prevent="submit()">Cadastrar</button>
       </div>
@@ -56,45 +58,27 @@ export default {
     password: "",
     confirmPassword: "",
     path: "/",
+    msg: "",
+    data: {},
   }),
   methods: {
     async submit() {
-      const data = {
+      this.data = {
         name: this.name,
         email: this.email,
         password: this.password,
         confirmPassword: this.confirmPassword,
       };
-      await axios.post("http://localhost:3000/signup", data);
 
-      delete data.confirmPassword;
-      delete data.name;
-      console.log(data);
-
-      axios
-        .post("http://localhost:3000/signin", data)
-        .then((content) => {
-          const data = {
-            ...content.data,
-          };
-          console.log(data);
-          return data;
+      await axios
+        .post("http://localhost:3000/signup", this.data)
+        .then((res) => {
+          this.$router.push({
+            name: "Login",
+          })
         })
-        .then((data) => {
-          axios
-            .post("http://localhost:3000/validateToken", data)
-            .then((authorizate) => {
-              console.log(JSON.parse(authorizate.config.data));
-              if (authorizate.data) {
-                this.$router.push({
-                  name: "UserHome",
-                  params: {
-                    user: JSON.parse(authorizate.config.data),
-                  },
-                });
-              }
-            });
-        });
+        .catch((e) => {this.msg = e.response.data});
+
       //GET USUÁRIOS ------------------------------------------------------------------
       // .post("http://localhost:3000/signin", data)
       // .then(content => {
@@ -128,7 +112,6 @@ h3 {
 }
 .Register button {
   padding: 5px;
-  width: 100%;
   color: whitesmoke;
 }
 .Register {
@@ -156,5 +139,14 @@ h3 {
 }
 .passAndConfirm .pass {
   padding-right: 30px;
+}
+.IHavaAcont{
+  margin-bottom: 10px;
+  font-size: .6em;
+  text-decoration: underline;
+  color: rgb(83, 83, 243);
+}
+.IHavaAcont{
+  cursor: pointer;
 }
 </style>
