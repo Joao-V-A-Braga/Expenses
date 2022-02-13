@@ -1,5 +1,5 @@
 <template>
-  <div class="userHome">
+  <div class="Month">
     <div class="bills">
       <div v-for="(bill, index) in billsList" :key="index">
         <Bills
@@ -40,7 +40,7 @@ export default {
       
       
       await axios
-        .post("http://localhost:3000/expenses/"+this.user.id, {month: this.month.month }, this.header)
+        .post("http://localhost:3000/expenses/"+this.user.id, {month: this.month.month, year: this.month.year }, this.header)
         .then((res) => {
           this.billsList = [...res.data].sort((a,b) => new Date(a.date) > new Date(b.date) ? 1 : -1)
         })
@@ -57,7 +57,7 @@ export default {
       this.$emit("getRemaining", {
       value: remaining.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}),
       stat: true,
-      month: this.month
+      month: this.month,
     });
     },
     getIfDel(obj){
@@ -71,6 +71,7 @@ export default {
   },
   mounted: async function () {
     this.user = this.$route.params.user;
+    if(!this.user) this.$router.push({name: 'Login'})
     this.month = this.$route.params.month;
     delete this.month.positiveOrNot
     this.header = {
@@ -79,7 +80,6 @@ export default {
           "Content-Type": "application/json",
         },
       }
-    console.log(this.month)
     
     await this.getExpanses();
 
@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style>
-.userHome {
+.Month {
   display: flex;
   flex-direction: column;
   justify-content: space-between;

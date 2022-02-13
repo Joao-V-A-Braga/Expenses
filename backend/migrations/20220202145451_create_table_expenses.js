@@ -7,7 +7,8 @@ exports.up = function(knex, Promise) {
         table.float('value').notNull()
         table.date('date').notNull()
         table.boolean('paid').notNull()
-        table.integer('month').notNull()
+        table.integer('month').notNull(),
+        table.integer('year').notNull()
     })
 };
 

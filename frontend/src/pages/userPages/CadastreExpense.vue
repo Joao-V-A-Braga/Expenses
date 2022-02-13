@@ -1,42 +1,42 @@
 <template>
-  
-    <div class="CadastreExpense">
-      <h4>Cadastrar Despesa</h4>
-      <form>
-        <label for="title">Título:</label>
-        <input
-          v-model="title"
-          placeholder="Digite o título da despesa..."
-          type="text"
-        />
-
-        <br /><br /><label for="valor">Valor:</label>
-        <input
-          v-model="value"
-          placeholder="Digite o valor da despesa..."
-          type="text"
-        />
-        
-        <br /><br /><label for="date">Data:</label>
-        <input
-          v-model="date"
-          type="date"
-        />
-        <br /><br /><label for="pay">Pagar:</label>
-        <input
-          v-model="paid"
-          type="checkbox"
-        />
-        
-        <br />
-        <div class="button">
-          <button v-on:click.prevent="submit()">Cadastrar</button>
-          <button v-on:click.prevent="reset()" class="reset" type="reset">
-            Cancelar
-          </button>
-        </div>
-      </form>
+  <div class="CadastreExpense">
+    <h4>Cadastrar Despesa</h4>
+    <div class="invalid" :v-if="msg">
+      <i v-if="msg" class="fa fa-exclamation-triangle"></i> {{ msg }}
     </div>
+    <form>
+      <label for="title">Título:</label>
+      <input
+        v-model="title"
+        placeholder="Digite o título da despesa..."
+        type="text"
+      />
+
+      <br /><br /><label for="valor">Valor:</label>
+      <input
+        v-model="value"
+        placeholder="Digite o valor da despesa..."
+        type="number"
+      />
+
+      <br /><br /><label for="date">Data:</label>
+      <input v-model="date" type="date" />
+      <br />
+
+      <div class="pay">
+        <label for="pay">Pagou?</label>
+        <input v-model="paid" type="checkbox" />
+        <span v-if="paid"> - Sim</span> <span v-else> - Não</span>
+      </div>
+
+      <div class="button">
+        <button v-on:click.prevent="submit()">Cadastrar</button>
+        <button v-on:click.prevent="reset()" class="reset" type="reset">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -45,19 +45,20 @@ export default {
   data: () => ({
     title: "",
     value: "",
-    date:"",
+    date: "",
     user: {},
     months: [],
     header: {},
-    paid: false
+    paid: false,
+    msg: "",
   }),
   mounted: function () {
     this.user = this.$route.params.user;
-    
+
     this.$emit("State", {
       title: "Adicionar Despesa:",
       ifUser: true,
-    })
+    });
     this.$emit("getRemaining", {
       stat: false,
     });
@@ -79,73 +80,105 @@ export default {
         },
       };
 
-      this.getMonths()
-      
+      this.date =
+        this.date[this.date.length - 2] == "0"
+          ? this.date.slice(0, this.date.length - 2) +
+            this.date.slice(this.date.length - 1)
+          : this.date;
+
+      this.getMonths();
+
       const matched = this.months.filter(
-        month => month.month == new Date(this.date).getMonth() && month.year == new Date(this.date).getFullYear()
-        )
-      if(matched.length !== 0){
+        (month) =>
+          month.month == new Date(this.date).getMonth() &&
+          month.year == new Date(this.date).getFullYear()
+      );
+
+      if (matched.length !== 0) {
         await axios
           .post(
             "http://localhost:3000/expenses",
             {
               userId: this.user.id,
               name: this.title,
-              value: Number(this.value),
+              value: this.value,
               paid: this.paid,
               date: new Date(this.date),
-              month: new Date(this.date).getMonth()
+              month: new Date(this.date).getMonth(),
+              year: new Date(this.date).getFullYear(),
             },
             this.header
           )
-          .catch((msg) => console.log(msg));
-      }else{
-        await this.mountMonth()
-
-        await axios
-          .post(
-            "http://localhost:3000/expenses",
-            {
-              userId: this.user.id,
-              name: this.title,
-              value: Number(this.value),
-              paid: this.paid,
-              date: new Date(this.date),
-              month: new Date(this.date).getMonth()
-            },
-            this.header
-          )
-          .catch((msg) => console.log(msg));
-      }
-
-
-      this.$router.push({
-        name: "UserHome",
-        params: {
-          user: this.user,
-        },
-      });
-    },
-    async getMonths(){
-      await axios
-        .get("http://localhost:3000/months/"+this.user.id, this.header)
-        .then(async res => {
-          console.log(res.data)
-          this.months = res.data
+          .then((res) => {
+            this.$router.push({
+              name: "UserHome",
+              params: {
+                user: this.user,
+              },
+            });
           })
-    },
-    async mountMonth(){
-      const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
-      const body = {
-        name: months[(new Date(this.date).getUTCMonth())],
-        userId: this.user.id,
-        year: new Date(this.date).getUTCFullYear(),
-        month: new Date(this.date).getUTCMonth(),
-        monthIncome: 0,
+          .catch((e) => (this.msg = e.response.data));
+      } else {
+        await this.mountMonth();
+
+        await axios
+          .post(
+            "http://localhost:3000/expenses",
+            {
+              userId: this.user.id,
+              name: this.title,
+              value: this.value,
+              paid: this.paid,
+              date: new Date(this.date),
+              month: new Date(this.date).getMonth(),
+              year: new Date(this.date).getFullYear(),
+            },
+            this.header
+          )
+          .then((res) => {
+            this.$router.push({
+              name: "UserHome",
+              params: {
+                user: this.user,
+              },
+            });
+          })
+          .catch((e) => (this.msg = e.response.data));
       }
-      await axios.post("http://localhost:3000/months", body, this.header)
-      .then(res=> res.status(201).send())
-      .catch(e => console.log('ERR: a hora de publi'))
+    },
+    async getMonths() {
+      await axios
+        .get("http://localhost:3000/months/" + this.user.id, this.header)
+        .then(async (res) => {
+          this.months = res.data;
+        });
+    },
+    async mountMonth() {
+      const months = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro",
+      ];
+      const body = {
+        name: months[new Date(this.date).getMonth()],
+        userId: this.user.id,
+        year: new Date(this.date).getFullYear(),
+        month: new Date(this.date).getMonth(),
+        monthIncome: 0,
+      };
+      await axios
+        .post("http://localhost:3000/months", body, this.header)
+        .then((res) => res.status(201).send())
+        .catch((e) => console.log("ERR: a hora de publi"));
     },
   },
 };
@@ -163,7 +196,7 @@ h4 {
 .CadastreExpense {
   border: solid white;
   color: white;
-  background: linear-gradient(to right, #3c608b, #22354b);
+  background: linear-gradient(to right, #161f29, #161f29);
   padding: 30px;
   padding-bottom: 20px;
   margin-top: 20px;
@@ -176,7 +209,7 @@ h4 {
 }
 
 .CadastreExpense button {
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100px;
   height: 30px;
   font-size: 11px;
@@ -209,5 +242,20 @@ h4 {
 
 .reset {
   margin-left: 10px;
+}
+.invalid {
+  font-family: Helvetica, sans-serif;
+  font-size: 0.6em;
+  color: rgb(253, 61, 61);
+  margin-bottom: 10px;
+}
+span {
+  font-size: 0.8em;
+  margin-left: 5px;
+}
+.pay {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 </style>

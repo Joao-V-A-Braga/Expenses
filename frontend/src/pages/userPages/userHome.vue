@@ -55,16 +55,14 @@ export default {
         monthIncome: 0,
       }
       await axios.post("http://localhost:3000/months", body, this.header)
-      .then(res=> res.status(201).send())
-      .catch(e => console.log(e.response.data))
+      .then(res=> res.status(201))
+      .catch(_ => _)
     },
     async getMonths(){
       await axios
         .get("http://localhost:3000/months/"+this.user.id, this.header)
         .then(async res => {
-          console.log(res.data)
           this.month = res.data.filter(value => value.month === new Date().getMonth())[0]
-          console.log(this.month || 'É indefinido')
             if(!this.month|| this.month.month == undefined){
               await this.mountMonth()
               await this.getMonths()
@@ -82,20 +80,19 @@ export default {
       await this.getMonths()
       
       await axios
-        .post("http://localhost:3000/expenses/"+this.user.id, {month: this.month.month}, this.header)
+        .post("http://localhost:3000/expenses/"+this.user.id, {month: this.month.month, year: this.month.year}, this.header)
         .then((res) => {
           this.billsList = [...res.data].sort((a,b) => a.id > b.id ? 1 : -1)
         })
-        .catch((err) => {
-          console.log("O usuário não possui despesas!");
-        });
+        .catch((e) => e);
     },
     changeRemaining: function (){
       this.valueSumExpanses = this.billsList.reduce((current,prev) => {
         if(prev.paid) return (prev.value + current)
           return current
       },0)
-      const remaining = this.monthlyIncome-this.valueSumExpanses
+      
+      const remaining = this.monthlyIncome -this.valueSumExpanses
       this.$emit("getRemaining", {
       value: remaining.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}),
       stat: true,
@@ -105,6 +102,8 @@ export default {
   },
   mounted: async function () {
     this.user = this.$route.params.user;
+    if(!this.user) this.$router.push({name: 'Login'})
+
     await this.getExpanses();
 
     this.$emit("State", {

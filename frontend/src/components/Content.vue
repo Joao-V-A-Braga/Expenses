@@ -11,8 +11,9 @@
           <label for="monthlyIncome">Saldo do mês</label>
             <span
               >R$
-              <input type="number" v-model="monthIncome" placeholder="Inserir"
-            /></span>
+              <input v-on:keyup.prevent="insertIncome" type="number" v-model="monthlyIncome" placeholder="Inserir"/>
+              
+            </span>
         </div>
         <div class="remainingIncome">
           <label for="remainingIncome">Restante</label>
@@ -22,7 +23,7 @@
     </div>
     <div class="contentMain">
       <router-view
-        :monthlyIncome="monthlyIncome"
+        :monthlyIncome="monthlyIncome || month.monthIncome"
         @getRemaining="onGetRemaining"
         @State="onGetState"
       ></router-view>
@@ -39,11 +40,30 @@ export default {
   data: () => ({
     title: null,
     remainingIncome: "0",
-    monthlyIncome: "",
+    monthlyIncome: '',
     stat: false,
-    month: {}
+    month: {},
+    aux: ''
   }),
-  methods: {
+  methods: {    
+    insertIncome(e){
+
+      this.monthlyIncome = this.monthlyIncome ? this.monthlyIncome : ''
+
+      if(e.which == 8 && !this.monthlyIncome){
+        this.monthlyIncome = this.aux.toString().length < 2 ? '0' : this.aux.slice(0,-2)
+        this.aux = this.monthlyIncome
+      }else{
+        this.aux = this.monthlyIncome
+      }
+    },
+    selectAll: function(event) {
+            // Workaround for Safari bug
+            // http://stackoverflow.com/questions/1269722/selecting-text-on-focus-using-jquery-not-working-in-safari-and-chrome
+            setTimeout(function() {
+              event.target.select();
+            }, 0);
+          },
     onGetState(state) {
       this.title = state.title;
       this.$emit("ifUser", state.ifUser);
@@ -53,7 +73,6 @@ export default {
       this.stat = obj.stat || false;
       this.month = obj.month || false
       this.monthlyIncome = this.month && this.month.monthIncome != 0 ? this.month.monthIncome : ''
-      
       if(Number(this.remainingIncome.replace('R$','').replaceAll('.','').replace(',','.')) >= 0) {
         document.getElementsByClassName('valueRemaining')[0].style.color = 'rgb(104, 153, 30)'
         }
@@ -61,7 +80,7 @@ export default {
         document.getElementsByClassName('valueRemaining')[0].style.color = 'rgb(255,0,0)'
       }
     },
-  },
+  }
 };
 </script>
 
@@ -78,6 +97,7 @@ export default {
   justify-content: center;
   height: 78%;
   width: 100%;
+  zoom:150%;
 }
 .title {
   font-size: 1.5em;
@@ -85,6 +105,7 @@ export default {
   display: flex;
   align-items: center;
   padding-top: 30px;
+  zoom:150%;
 
 }
 .titleAndStat {
@@ -96,6 +117,7 @@ export default {
   padding-top: 30px;
   justify-content: start;
   margin-right: 8%;
+  zoom:150%;
 }
 .monthlyIncome {
   display: flex;

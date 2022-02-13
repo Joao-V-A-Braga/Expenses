@@ -60,6 +60,7 @@ export default {
   grid-area: content;
   background: linear-gradient(to right, #060a0f, #151c24);
   height: 100%;
+  zoom:150%;
 }
 
 

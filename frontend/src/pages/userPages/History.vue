@@ -56,11 +56,8 @@ export default {
         .get("http://localhost:3000/months/"+this.user.id, this.header)
         .then(res => {
           this.months = res.data.sort((a, b) => {
-            a = new Date(`1-${a.month}-${a.year}`) | new Date('1-0-1000')
-            b = new Date(`1-${b.month}-${b.year}`) | new Date('1-0-1000')
             
-
-            if (a < b){
+           if (new Date(`1/${a.month+1}/${a.year}`) < new Date(`1/${b.month+1}/${b.year}`)){
               return 1;
             } else {
               return -1;
@@ -84,6 +81,7 @@ export default {
 
   mounted: async function () {
     this.user = this.$route.params.user;
+    if(!this.user) this.$router.push({name: 'Login'})
     await this.getExpanses();
     await this.getMonths()
     this.mountMonthsAndBills()

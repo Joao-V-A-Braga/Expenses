@@ -43,6 +43,7 @@ export default {
 h1 {
   font-size: 1.3em;
   margin-left: 15px;
+  zoom:150%;
 }
 .contentHeader {
   display: flex;
@@ -50,8 +51,10 @@ h1 {
   padding-left: 10px;
   height: 10vh;
 }
-
-button {
+.contentHeader button{
+  zoom: 150%;
+}
+ button {
   background-color: rgba(255, 0, 0, 0);
   border: none;
 }

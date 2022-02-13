@@ -15,7 +15,7 @@ export default {
     }),
     mounted: function(){
       this.$emit("State", {
-      title: `Faça o seu cadastro no nosso site!!`,
+      title: `Faça já o seu cadastro!!`,
       ifUser: false
     })
     this.$emit("getRemaining", {

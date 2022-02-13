@@ -25,10 +25,9 @@ export default {
         .get("http://localhost:3000/months/" + this.user.id, this.header)
         .then((res) => {
           this.months = res.data.sort((a, b) => {
-            a = new Date(`1-${a.month}-${a.year}`) | new Date('1-0-1000')
-            b = new Date(`1-${b.month}-${b.year}`) | new Date('1-0-1000')
-            console.log([a, b, 'aaaaaaaaaaaaaaaaaaaaaaaa'])
-            if (a < b){
+            console.log(`1/${a.month+1}/${a.year}`,['a'])
+            console.log(`1/${b.month+1}/${b.year}`,['b'])
+            if (new Date(`1/${a.month+1}/${a.year}`) < new Date(`1/${b.month+1}/${b.year}`)){
               return 1;
             } else {
               return -1;
@@ -40,7 +39,7 @@ export default {
           await axios
             .post(
               "http://localhost:3000/expenses/" + this.user.id,
-              { month: value.month},
+              { month: value.month, year: value.year},
               this.header
             )
             .then((res) => {
@@ -52,7 +51,7 @@ export default {
               console.log("O esse mês não possui despesas!");
             });
           const sumExp = this.billsList.reduce((a, b) => a +=  b.paid ? b.value : 0, 0);
-            console.log(sumExp)
+          console.log('salario:',value.monthIncome, 'soma:',sumExp)
           const positiveOrNot = (value.monthIncome - sumExp) < 0 ? "monthButton red" : 'monthButton'
           return { ...value, positiveOrNot };
         })
@@ -70,6 +69,7 @@ export default {
   },
   mounted: async function () {
     this.user = this.$route.params.user;
+    if(!this.user) this.$router.push({name: 'Login'})
     this.header = {
       headers: {
         Authorization: "bearer " + this.user.token,

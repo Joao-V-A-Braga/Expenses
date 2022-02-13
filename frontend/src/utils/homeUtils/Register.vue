@@ -2,7 +2,7 @@
   <div class="Register">
     <h3>Registrar</h3>
     <form>
-      <div class="invalid" :v-if="msg">{{ msg }}</div>
+      <div class="invalid"> <i v-if="msg" class="fa fa-exclamation-triangle"></i>  {{ msg }}</div>
       <div class="nameAndEmail">
         <div>
           <label for="name">Nome:</label> <br />

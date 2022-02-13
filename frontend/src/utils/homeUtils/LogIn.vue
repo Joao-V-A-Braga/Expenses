@@ -2,7 +2,7 @@
   <div class="LogIn">
     <h3>Login</h3>
     <form>
-      <div class="invalid" :v-if="msg"><i class="fas fas-triangle-exclamation"></i>{{ msg }}</div>
+      <div class="invalid" ><i v-if="msg" class="fa fa-exclamation-triangle"></i>  {{ msg }}</div>
       <label for="email">Email:</label><br />
       <input v-model="email" placeholder="Digite o seu email..." type="text" />
       <br /><br /><label for="password">Senha:</label><br />
@@ -28,7 +28,7 @@ export default {
     email: "",
     password: "",
     path: "/",
-    msg: "",
+    msg: '',
   }),
   methods: {
     submit() {
@@ -49,7 +49,6 @@ export default {
           axios
             .post("http://localhost:3000/validateToken", data)
             .then((authorizate) => {
-              console.log(JSON.parse(authorizate.config.data));
               if (authorizate.data) {
                 this.$router.push({
                   name: "UserHome",

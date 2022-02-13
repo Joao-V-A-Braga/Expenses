@@ -23,6 +23,7 @@ export default {};
 p {
   font-size: .8em;
   padding-right: 20px;
+  zoom: 150%;
 }
 footer i{
   color: red;
