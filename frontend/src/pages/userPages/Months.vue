@@ -1,6 +1,5 @@
 <template>
   <div class="MonthPage">
-    <div class="title">Meses</div>
     <div class="monthList" v-for="month in months" :key="month.id">
       <button v-on:click.prevent="onClick(month)" :class="month.positiveOrNot">
         {{ month.name }}
@@ -80,7 +79,7 @@ export default {
     await this.getMonths();
 
     this.$emit("State", {
-      title: "",
+      title: "Meses",
       ifUser: true,
     });
 
@@ -103,6 +102,7 @@ export default {
   color: rgb(29, 138, 1);
   margin: 20px;
   margin-bottom: 10px;
+  margin-top: 10px;
   text-align: start;
   width: 100%;
   padding: 10px;
@@ -118,8 +118,5 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-}
-.title {
-  padding-left: 20px;
 }
 </style>

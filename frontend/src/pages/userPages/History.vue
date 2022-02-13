@@ -1,6 +1,5 @@
 <template>
   <div class="Months">
-    <div class="title">Histórico</div>
     <div v-for="(value,valueIndex) in monthsAndBills" :key="valueIndex">
     <div class="monthAndYear"><div class="year">{{value.year}}</div><div class="monthName">{{value.name}}</div> </div>
     <div class="bills">
@@ -87,7 +86,7 @@ export default {
     this.mountMonthsAndBills()
 
     this.$emit("State", {
-      title: "",
+      title: "Histórico",
       ifUser: true,
     });
     
@@ -113,10 +112,7 @@ export default {
 .Months{
   width: 80%;
 }
-.Months .title{
-    display: flex;
-    justify-content: center;
-    font-size: 1.5em;
-    width: 100%;
+.title{
+  margin-bottom: 20px;
 }
 </style>

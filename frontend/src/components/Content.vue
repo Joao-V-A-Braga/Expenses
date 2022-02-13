@@ -106,7 +106,6 @@ export default {
   align-items: center;
   padding-top: 30px;
   zoom:150%;
-
 }
 .titleAndStat {
   display: flex;
@@ -155,7 +154,6 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 .month{
-  font-size: 1.3em;
   margin-right: 20px;
   display: flex;
   align-items: center;
