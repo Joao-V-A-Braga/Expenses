@@ -14,7 +14,6 @@ module.exports = app => {
         .get(app.api.user.getUserById)
 
     app.route("/stat")
-        .all(app.config.passport.authenticate)
         .get(app.api.stat.get)
 
     app.route('/expenses')

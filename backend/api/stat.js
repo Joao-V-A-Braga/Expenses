@@ -9,5 +9,5 @@ module.exports = app =>{
             .then(stat => res.json(stat))
     }
 
-    return {Stat, get}
+    return {Stat, get} 
 }

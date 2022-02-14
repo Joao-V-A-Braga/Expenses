@@ -6,16 +6,21 @@
 
 <script>
 import Register from '@/utils/homeUtils/Register.vue'
+
+const axios = require('axios')
 export default {
     components: {
 		Register
 	},
     data: () => ({
-      
+      usersCount: 0
     }),
-    mounted: function(){
+    mounted: async function(){
+
+      this.usersCount = await axios.get('http://localhost:3000/stat').then(resp => resp.data.users) 
+
       this.$emit("State", {
-      title: `Faça já o seu cadastro!!`,
+      title: `Somos cerca de ${this.usersCount} usuários, faça também o seu cadastro!!`,
       ifUser: false
     })
     this.$emit("getRemaining", {
@@ -23,9 +28,6 @@ export default {
       stat: false
     });
     },
-    methods:{
-      
-    }
 }
 </script>
 
