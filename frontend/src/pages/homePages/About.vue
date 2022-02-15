@@ -23,7 +23,8 @@ mounted: function(){
         flex-direction: column;
         align-items: center;
         margin: 20px;
-    }
+        font-size: 10pt;
+}
     p{
         text-align: justify;
     }

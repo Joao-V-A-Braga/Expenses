@@ -132,7 +132,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 95%;
   padding-top: 10px;
 }
 .bills {
